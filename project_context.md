@@ -43,6 +43,7 @@ Last updated: 2026-04-28
 - Changed local and production build scripts to use Webpack because Turbopack is blocked by Windows process permissions in this environment.
 - Upgraded the AI helper so it returns differentiated answers for TFN, jobs, resume, budget, rentals, visa hours, transport, OSHC, scams, PR, documents, bank, SIM, and pay-rate questions.
 - Initialized this local folder as a Git repository and linked it to `https://github.com/shameercool96-boop/Newstart-australia.git`.
+- Committed and pushed the current working app state to GitHub `main` with commit `717e77f`.
 
 ## Pending Tasks
 
