@@ -56,6 +56,8 @@ Last updated: 2026-04-28
 - Rebuilt the Money UI around visuals first, with editing hidden until requested.
 - Replaced the older localStorage effect pattern with `useSyncExternalStore` so React 19 lint passes cleanly.
 - Installed Framer Motion and added fade, slide, hover, tap, and floating assistant animations.
+- Deployed the Apple-style Focus Mode redesign to Vercel production.
+- Added `.vercelignore` so local logs, env files, notes, and cache folders are excluded from future CLI deployments.
 
 ## Pending Tasks
 
@@ -66,7 +68,7 @@ Last updated: 2026-04-28
 - Add OpenAI/Vercel AI SDK integration for deeper AI responses and optional live web/tool grounding.
 - Add tests for assistant routing, budget calculations, checklist persistence, and onboarding flow.
 - Restore or redesign advanced modules like Local Life, Document Vault, PR Tracker, and Jobs behind progressive disclosure if needed.
-- Confirm GitHub/Vercel auto-deploy behavior from pushed commits and adjust project settings if needed.
+- Confirm future GitHub/Vercel auto-deploy behavior from pushed commits and adjust project settings if needed.
 - Add privacy policy, terms, and data retention copy before public real-user launch.
 - Add analytics and error monitoring.
 

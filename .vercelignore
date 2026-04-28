@@ -1,0 +1,15 @@
+# Local development
+*.log
+.env
+.env.*
+
+# Tooling and cache
+.git
+.github
+.next
+node_modules
+
+# Project notes not needed at runtime
+project_context.md
+supabase.schema.sql
+README.md
