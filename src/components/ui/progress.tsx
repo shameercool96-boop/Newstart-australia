@@ -18,7 +18,7 @@ export function ProgressBar({
   };
 
   return (
-    <div className={cn("h-2 overflow-hidden rounded-full bg-white/10", className)}>
+    <div className={cn("h-2 overflow-hidden rounded-full bg-slate-200", className)}>
       <div
         className={cn("h-full rounded-full transition-all duration-500", tones[tone])}
         style={{ width: `${Math.min(Math.max(value, 0), 100)}%` }}
@@ -35,7 +35,7 @@ export function ProgressRing({
   label: string;
 }) {
   const safeValue = Math.min(Math.max(value, 0), 100);
-  const background = `conic-gradient(#38d2c7 ${safeValue * 3.6}deg, rgba(255,255,255,0.12) 0deg)`;
+  const background = `conic-gradient(#0071e3 ${safeValue * 3.6}deg, #e8e8ed 0deg)`;
 
   return (
     <div className="grid place-items-center">

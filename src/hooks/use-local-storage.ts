@@ -1,36 +1,75 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
+
+function serialize<T>(value: T) {
+  return JSON.stringify(value);
+}
+
+function parseValue<T>(value: string | null, fallback: T) {
+  if (!value) {
+    return fallback;
+  }
+
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
-  const initialRef = useRef(initialValue);
-  const [value, setValue] = useState<T>(initialValue);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const fallbackSnapshot = serialize(initialValue);
 
-  useEffect(() => {
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item) {
-        setValue(JSON.parse(item) as T);
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      function handleStorage(event: StorageEvent) {
+        if (event.key === key) {
+          onStoreChange();
+        }
       }
-    } catch {
-      setValue(initialRef.current);
-    } finally {
-      setIsLoaded(true);
-    }
-  }, [key]);
 
-  const setStoredValue = useCallback(
-    (nextValue: T | ((current: T) => T)) => {
-      setValue((current) => {
-        const resolved =
-          typeof nextValue === "function" ? (nextValue as (current: T) => T)(current) : nextValue;
-        window.localStorage.setItem(key, JSON.stringify(resolved));
-        return resolved;
-      });
+      window.addEventListener("storage", handleStorage);
+      window.addEventListener(`newstart-storage:${key}`, onStoreChange);
+
+      return () => {
+        window.removeEventListener("storage", handleStorage);
+        window.removeEventListener(`newstart-storage:${key}`, onStoreChange);
+      };
     },
     [key]
   );
 
-  return [value, setStoredValue, isLoaded] as const;
+  const getSnapshot = useCallback(() => {
+    if (typeof window === "undefined") {
+      return fallbackSnapshot;
+    }
+
+    return window.localStorage.getItem(key) ?? fallbackSnapshot;
+  }, [fallbackSnapshot, key]);
+
+  const storedSnapshot = useSyncExternalStore(subscribe, getSnapshot, () => fallbackSnapshot);
+
+  const value = useMemo(
+    () => parseValue<T>(storedSnapshot, initialValue),
+    [initialValue, storedSnapshot]
+  );
+
+  const setStoredValue = useCallback(
+    (nextValue: T | ((current: T) => T)) => {
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      const current = parseValue<T>(window.localStorage.getItem(key), initialValue);
+      const resolved =
+        typeof nextValue === "function" ? (nextValue as (currentValue: T) => T)(current) : nextValue;
+
+      window.localStorage.setItem(key, serialize(resolved));
+      window.dispatchEvent(new Event(`newstart-storage:${key}`));
+    },
+    [initialValue, key]
+  );
+
+  return [value, setStoredValue, true] as const;
 }

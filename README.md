@@ -1,25 +1,26 @@
 # NewStart Australia
 
-NewStart Australia is a mobile-first onboarding and survival dashboard for new international students arriving in Australia. It focuses on real first-month problems: phone, bank, TFN, transport, OSHC, rent, job search, budget pressure, scams, work limits, documents, and PR evidence planning.
+NewStart Australia is a calm onboarding and survival app for new international students arriving in Australia. The current UI uses Apple-style minimalism and ADHD-friendly focus patterns: fewer choices, short steps, visual progress, and one clear action at a time.
 
 ## Stack
 
 - Next.js 16 App Router
 - React 19
 - Tailwind CSS 4
+- Framer Motion
 - Supabase-ready auth/database/storage layer
 - Mock REST API routes for assistant, profile save, local tools, and document metadata
 - Local demo persistence with `localStorage`
 
 ## Features
 
-- Personalized onboarding wizard for country, city, visa type, budget, and goals
-- Dashboard with pending tasks, money left, job status, document count, and progress
-- First 7 Days checklist with official links and city-specific transport guidance
-- Job & Income hub with job options, quick apply links, resume template, and earnings calculator
-- Smart budget tracker with weekly summary, monthly projection, and overspending alerts
-- Avoid Mistakes section for scams, illegal work limits, underpayment, overpriced rentals, and tax errors
-- ChatGPT-style AI assistant using a mock `/api/assistant` route
+- Apple-inspired Home dashboard with only tasks, money left, and progress
+- ADHD-friendly Focus Mode that shows one current task
+- First 7 Days task flow with short step screens and one Done button
+- Visual-first budget tracker with budget ring, progress bars, and hidden edit controls
+- Floating AI assistant with quick prompts and mock `/api/assistant` route
+- Short alert cards for scams, work limits, rent, TFN, and budget issues
+- Smooth Framer Motion transitions, hover states, and tap feedback
 - Local life tools with supermarkets, transport, cheap food spots, and Google Maps search links
 - Document vault demo for passport, visa, TFN, COE, and OSHC metadata
 - PR pathway tracker for 482, 189, and 190 evidence checklists
@@ -45,6 +46,7 @@ newstart-australia/
     components/
       ui/
       app-shell.tsx
+      focus-ui.tsx
       onboarding-wizard.tsx
       dashboard-view.tsx
       checklist-view.tsx
@@ -77,6 +79,8 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+The scripts use Webpack mode because Turbopack process spawning is blocked on this Windows setup.
+
 ## Optional Supabase Setup
 
 1. Create a Supabase project.
@@ -100,6 +104,8 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-google-key
 3. Framework preset: Next.js.
 4. Add the same environment variables from `.env.local`.
 5. Deploy.
+
+Live demo: `https://newstart-australia.vercel.app`
 
 ## Future Features
 
